@@ -1,3 +1,7 @@
+The changes in this branch incorporate the changes from here:
+http://bakery.cakephp.org/articles/tbsmcd/2011/02/05/recaptcha_plugin_6
+As listed by Jahdrien
+
 Quick start guide.
 
 1. Get reCAPTCHA key.
@@ -26,7 +30,13 @@ Inside <form> tags:
 	echo $this->Recaptcha->show();
 	echo $this->Recaptcha->error();
 
-If you want to use reCAPTCHA theme, you should write like this:
->	echo $this->Recaptcha->show('white');
-Possible values:'red'|'white'|'blackglass'|'clean';
-Default value: 'red';
+
+The show function accepts an attributes array to set values found here:
+http://code.google.com/intl/fr/apis/recaptcha/docs/customization.html
+
+Example:
+
+echo $this->Recaptcha->show(array(
+	'theme' => 'clean', // Default is still Red, can be one of: red | white | blackglass | clean
+	'lang' => 'es' // Sets the language as found in the cusomization link above
+);

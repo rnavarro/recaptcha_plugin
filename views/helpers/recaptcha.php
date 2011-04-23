@@ -2,16 +2,21 @@
 class RecaptchaHelper extends Helper {
 	public $helpers = array('Form');
 
-	function show($theme = null) {
-		if (empty($theme) || !in_array($theme, array('red', 'white', 'blackglass', 'clean'))) {
-			$theme = 'red';
+	function show($options = array()) {
+		if (isset($options['theme'])) {
+			if (!in_array($options['theme'], array('red', 'white', 'blackglass', 'clean'))) {
+				$options['theme'] = 'red';
+			}
 		}
 		App::import('Vendor', 'RecaptchaPlugin.recaptchalib');
 		Configure::load('RecaptchaPlugin.key');
 		$publickey = Configure::read('Recaptcha.Public');
-		$html = '<script type="text/javascript">var RecaptchaOptions = {theme : \'' . $theme . '\'};</script>';
+		$html = '<script type="text/javascript">var RecaptchaOptions = ';
+		$html .= json_encode($options);
+		$html .= ';</script>';
+
 		if (isset($recaptcha_error)) {
-			$html .= $recaptcha_error . '<br/>';
+			$html .= $recaptcha_error . '';
 		}
 		return $html .= recaptcha_get_html($publickey);
 	}
